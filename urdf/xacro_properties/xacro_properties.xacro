@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: 3023829f8e4e5c564f6b4985 -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:property name="package_name" value="my_robot_description" />
+<xacro:property name="robot_name" value="tretabot" />
+
+</robot>

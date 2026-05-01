@@ -1,0 +1,54 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: 3023829f8e4e5c564f6b4985 -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- Gazebo properties for the base link -->
+  <gazebo reference="base_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="lidar_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="camara_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+
+  <!-- Gazebo properties for wheel/axle links -->
+  <!-- Rear Right Wheel -->
+  <gazebo reference="llanta_dere_del_link">
+    <mu1 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <mu2 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <kp value="1000000.0"/> <!-- Spring stiffness for contact (optional, but good defaults) -->
+    <kd value="0.5"/> <!-- Damping coefficient for contact (optional) -->
+  </gazebo>
+
+  <!-- Front Left Wheel -->
+  <gazebo reference="llanta_dere_tra_link">
+    <mu1 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <mu2 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <kp value="1000000.0"/> <!-- Spring stiffness for contact (optional, but good defaults) -->
+    <kd value="0.5"/> <!-- Damping coefficient for contact (optional) -->
+  </gazebo>
+     
+  <gazebo reference="llanta_iz_del_link">
+    <mu1 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <mu2 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <kp value="1000000.0"/> <!-- Spring stiffness for contact (optional, but good defaults) -->
+    <kd value="0.5"/> <!-- Damping coefficient for contact (optional) -->
+  </gazebo>
+
+  <gazebo reference="llanta_iz_tra_link">
+    <mu1 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <mu2 value="1.0"/> <!-- High Friction coefficient for wheels -->
+    <kp value="1000000.0"/> <!-- Spring stiffness for contact (optional, but good defaults) -->
+    <kd value="0.5"/> <!-- Damping coefficient for contact (optional) -->
+  </gazebo>
+
+</robot>

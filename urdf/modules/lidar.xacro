@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+<!-- Generated using onshape-to-robot -->
+<!-- Onshape document_id: 3023829f8e4e5c564f6b4985 -->
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Link lidar_t_s -->
+  <link name="lidar_link">
+    <inertial>
+      <origin xyz="-0 -0 -0.00994579" rpy="0 0 0"/>
+      <mass value="0.0591873"/>
+      <inertia ixx="1.18545e-05" ixy="0" ixz="0" iyy="1.18545e-05" iyz="0" izz="1.49382e-05"/>
+    </inertial>
+    <!-- Part lidar_t_s -->
+    <visual>
+      <origin xyz="0 -0 0.005" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://my_robot_description/assets/lidar_t_s.stl"/>
+      </geometry>
+      <material name="lidar_t_s_material">
+        <color rgba="0.972549 0.529412 0.00392157 1"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 -0 0.005" rpy="3.14159 -0 0"/>
+      <geometry>
+        <mesh filename="package://my_robot_description/assets/lidar_t_s.stl"/>
+      </geometry>
+    </collision>
+  </link>
+  <!-- Joint from base_t to lidar_t_s -->
+  <joint name="lidar_joint" type="fixed">
+    <origin xyz="0.08 -0 0.17" rpy="3.14159 -0 0"/>
+    <parent link="base_link"/>
+    <child link="lidar_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="100" velocity="100"/>
+  </joint>
+
+
+</robot>

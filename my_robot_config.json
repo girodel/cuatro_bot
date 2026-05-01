@@ -1,0 +1,44 @@
+{
+  "documentId": "3023829f8e4e5c564f6b4985",
+  "outputFormat": "urdf",
+  "packageName": "my_robot_description",
+  "robotName": "tretabot",
+  "assemblyName": "robo_5_s",
+  "export_stl_with_meters": true,
+  "set_zero_mass_to_fixed": false,
+  "default_joint_type": "continuous",
+  "mesh_output_format": "stl",
+
+  "joint_properties": {
+
+      "default": {
+          "max_effort": 100,
+          "max_velocity": 100
+      },
+
+      "dof_llanta_dere_del": {
+          "type": "revolute"
+      },
+
+      "dof_llanta_dere_tra": {
+          "type": "revolute"
+      },
+
+      "dof_llanta_iz_del": {
+          "type": "revolute"
+      },
+
+      "dof_llanta_iz_tra": {
+          "type": "revolute"
+      },
+
+      "dof_lidar": {
+          "type": "fixed"
+      },
+
+      "dof_camara": {
+          "type": "fixed"
+      }
+  }
+}
+

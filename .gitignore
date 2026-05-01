@@ -1,0 +1,7 @@
+build/
+install/
+log/
+*.pdf
+*.gv
+__pycache__/
+.vscode/
