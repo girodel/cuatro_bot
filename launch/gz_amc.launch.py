@@ -1,4 +1,3 @@
-
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription, SetEnvironmentVariable
 from launch.substitutions import Command, PathJoinSubstitution, LaunchConfiguration
@@ -13,23 +12,33 @@ def generate_launch_description():
 
 # ================== ENVIRONMENT SETUP =================== #
 
-
     #CHANGE THESE TO BE RELEVANT TO THE SPECIFIC PACKAGE
-    robot_description_path = get_package_share_directory('my_robot_description')  # -----> Change me!
-    robot_package = FindPackageShare('my_robot_description') # -----> Change me!
-    robot_name = 'tetrabot' # Verify this matches your robot's actual spawned name/tf_prefix
+    robot_description_path = get_package_share_directory('my_robot_description')  
+    robot_package = FindPackageShare('my_robot_description') 
+    robot_name = 'tetrabot' 
     robot_urdf_file_name = 'my_robot.urdf.xacro'
     rviz_config_file_name = 'my_robo_only.rviz'
+    custom_world_file_name = 'my_prueba_world_2.sdf'
 
     parent_of_share_path = os.path.dirname(robot_description_path)
 
-    # --- Set GZ_SIM_RESOURCE_PATH / GAZEBO_MODEL_PATH ---
+    # --- Set GZ_SIM_RESOURCE_PATH  ---
     set_gz_sim_resource_path = SetEnvironmentVariable(
         name='GZ_SIM_RESOURCE_PATH', 
         value=[
             os.environ.get('GZ_SIM_RESOURCE_PATH', ''),
-            os.path.pathsep, # Separator for paths
-            parent_of_share_path # Add the path containing your package's share directory
+            os.path.pathsep, 
+            parent_of_share_path 
+        ]
+    )
+
+    # --- Set GAZEBO_MODEL_PATH ---
+    set_gazebo_model_path = SetEnvironmentVariable(
+        name='GAZEBO_MODEL_PATH',
+        value=[
+            os.environ.get('GAZEBO_MODEL_PATH', ''),
+            os.path.pathsep,
+            os.path.join(robot_description_path, 'models') 
         ]
     )
 
@@ -43,10 +52,7 @@ def generate_launch_description():
     use_sim_time = LaunchConfiguration('use_sim_time')
 
 
-
-
 # ========================================================= #
-
 
 # ======================== RVIZ ========================== #
 
@@ -98,7 +104,7 @@ def generate_launch_description():
         parameters=[{'use_sim_time': use_sim_time}] 
     )
 
-    # Joint State Publisher GUI node
+    #Joint State Publisher GUI node
     joint_state_publisher_gui_node = Node(
         package='joint_state_publisher_gui',
         executable='joint_state_publisher_gui',
@@ -109,7 +115,6 @@ def generate_launch_description():
 
 
 # ============== GAZEBO - SETUP AND LAUNCH ================ #
-
     
     # Include the Gazebo Sim launch file (using gz_sim.launch.py)
     gz_sim_launch_file = PathJoinSubstitution([
@@ -118,13 +123,23 @@ def generate_launch_description():
         'gz_sim.launch.py'
     ])
 
+
+    # Define the path to your custom world file
+    custom_world_path = PathJoinSubstitution([
+        robot_package,
+        'worlds',
+        custom_world_file_name
+    ])
+
+    # Construct the gz_args to the custom world as a single string
+    gz_args_value = ['-r ', custom_world_path] #the '-r' makes the server run
+
     gazebo_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([gz_sim_launch_file]),
-        launch_arguments={
-                        'gz_args': '-r empty.sdf',
-                        'use_sim_time': use_sim_time,
-                        'on_exit_shutdown': 'True'            
-                        }.items() # Use -r for 'run' and loads the world.
+        launch_arguments={'gz_args': gz_args_value, 
+                          'use_sim_time': use_sim_time,
+                          'on_exit_shutdown': 'True' 
+                          }.items()
     )
 
     # Reads the robot_description from the parameter server and spawns it.
@@ -133,8 +148,8 @@ def generate_launch_description():
         executable='create',
         arguments=[
             '-name', robot_name, 
-            '-topic', 'robot_description', # Read URDF from /robot_description topic
-            '-x', '0', # Default spawn location
+            '-topic', 'robot_description', 
+            '-x', '0', 
             '-y', '0',
             '-z', '0.5'
         ],
@@ -146,41 +161,45 @@ def generate_launch_description():
 
 # ================= GAZEBO BRIDGES & SENSOR SETUP =================== #
 
-    bridge_config_file = os.path.join(robot_description_path, 'yaml', 'gazebo_bridge.yaml')
-
     ros_gz_bridge = Node(
         package='ros_gz_bridge',
         executable='parameter_bridge',
         name='ros_gz_bridge',
-        parameters=[
-            {'config_file': bridge_config_file}
+        output='screen',
+        arguments=[
+            '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
+            '/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+            '/camera/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image',
+            '/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
+            f'/model/{robot_name}/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
+            f'/model/{robot_name}/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',
+            '/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist'
         ],
-        output='screen'
+        # 🔥 EL REMAPEO DE TF AQUÍ:
+        remappings=[
+            (f'/model/{robot_name}/tf', '/tf'),
+        ]
     )
 
-
-    #THESE ARE SPECIFIC TO GETTING THE LIDAR WORKING:
-    
-    #publishes a static transform for the purpose of getting lidar data across to RVIZ
-    lidar_tf_publisher_node = Node(   
-    package='tf2_ros',
-    executable='static_transform_publisher',
-    name='lidar_gpu_frame_broadcaster',
-    output='screen',
-    arguments=['0', '0', '0', '0', '0', '0', '1', # x,y,z, qx,qy,qz,qw (identity quaternion)
-               f'{robot_name}/lidar_link', # Parent: This should be the NEWLY prefixed lidar_link (e.g., camlidarbot/lidar_link)
-               f'{robot_name}/base_footprint/gpu_lidar'] # Child: This is your actual LaserScan frame_id
-    )
-
-    # New Node: Static Transform Publisher for map to odom
-    # This places your robot's 'odom' frame at the origin of the 'map' frame.
-    map_odom_publisher_node = Node(
+    # 🔥 EL ESLABÓN PERDIDO PARA CONECTAR EL ROBOT A SLAM:
+    footprint_to_base_node = Node(
         package='tf2_ros',
         executable='static_transform_publisher',
-        name='map_odom_broadcaster',
+        name='footprint_to_base_broadcaster',
         output='screen',
-        # arguments: x y z qx qy qz qw parent_frame_id child_frame_id
-        arguments=['0', '0', '0', '0', '0', '0', '1', 'map', f'{robot_name}/odom']
+        arguments=['0', '0', '0', '0', '0', '0', '1', 
+                   f'{robot_name}/base_footprint', 
+                   f'{robot_name}/base_link']
+    )
+
+    lidar_tf_publisher_node = Node(   
+        package='tf2_ros',
+        executable='static_transform_publisher',
+        name='lidar_gpu_frame_broadcaster',
+        output='screen',
+        arguments=['0', '0', '0', '0', '0', '0', '1', 
+                   f'{robot_name}/lidar_link', 
+                   f'{robot_name}/base_footprint/gpu_lidar'] 
     )
 
 
@@ -190,9 +209,10 @@ def generate_launch_description():
         urdf_path_arg,
         rviz_config_path_arg,
         use_sim_time_declare,
-        set_gz_sim_resource_path, # This must come before any nodes that rely on it
+        set_gz_sim_resource_path, 
+        set_gazebo_model_path, 
+        footprint_to_base_node,       # <--- Agregado aquí
         lidar_tf_publisher_node,
-        map_odom_publisher_node,
         robot_state_publisher_node,
         joint_state_publisher_gui_node,
         gazebo_launch,

@@ -12,7 +12,7 @@ find_package(ament_cmake REQUIRED)
 # find_package(<dependency> REQUIRED)
 
 install(
-  DIRECTORY launch assets urdf  worlds rviz  config models
+  DIRECTORY launch assets urdf  worlds rviz  config models yaml maps
   DESTINATION share/${PROJECT_NAME}/
 )
 
@@ -20,7 +20,9 @@ install(
 install(
   PROGRAMS
     scripts/obstacle_avoidance
-    scripts/bug0_node.py  # <--- Agrégalo aquí
+    scripts/bug0_node.py 
+    scripts/bug1_node.py # <--- Agrégalo aquí
+    scripts/bug2_node.py 
   DESTINATION lib/${PROJECT_NAME}
 )
 

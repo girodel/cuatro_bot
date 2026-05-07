@@ -4,6 +4,6 @@
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
 <xacro:property name="package_name" value="my_robot_description" />
-<xacro:property name="robot_name" value="tretabot" />
+<xacro:property name="robot_name" value="tetrabot" />
 
 </robot>

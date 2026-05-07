@@ -19,6 +19,30 @@
     <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
   </gazebo>
 
+  <gazebo reference="faro_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="antena_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="ultrasonico_der_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="ultrasonico_iz_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
+
+  <gazebo reference="ultrasonico_tra_link">
+    <mu1 value="0.5"/> <!-- Friction coefficient in the first direction -->
+    <mu2 value="0.5"/> <!-- Friction coefficient in the second direction -->
+  </gazebo>
 
   <!-- Gazebo properties for wheel/axle links -->
   <!-- Rear Right Wheel -->

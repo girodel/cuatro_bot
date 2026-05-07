@@ -13,12 +13,13 @@
       <origin xyz="0 0 0.0158450026" rpy="0 0 0" />
   </joint>
 
+
   <!-- Link base_t -->
   <link name="base_link">
     <inertial>
-      <origin xyz="0.0112256 -0 0.0778907" rpy="0 0 0"/>
-      <mass value="4.81654"/>
-      <inertia ixx="0.0259231" ixy="0" ixz="-0.00401137" iyy="0.0296606" iyz="0" izz="0.0400591"/>
+      <origin xyz="0.0107572 -0.000338235 0.0779814" rpy="0 0 0"/>
+      <mass value="4.83557"/>
+      <inertia ixx="0.0260829" ixy="-0.000213984" ixz="-0.00395219" iyy="0.0299972" iyz="3.98093e-05" izz="0.0405276"/>
     </inertial>
     <!-- Part base_t -->
     <visual>
@@ -40,13 +41,13 @@
   <!-- Link llanta_dere_del -->
   <link name="llanta_dere_del_link">
     <inertial>
-      <origin xyz="0 -0 -0.0264625" rpy="0 0 0"/>
+      <origin xyz="-0 -0 -0.0264625" rpy="0 0 0"/>
       <mass value="0.0901579"/>
-      <inertia ixx="2.81915e-05" ixy="0" ixz="0" iyy="2.83576e-05" iyz="0" izz="4.79296e-05"/>
+      <inertia ixx="2.81915e-05" ixy="0" ixz="0" iyy="2.83576e-05" iyz="-0" izz="4.79296e-05"/>
     </inertial>
     <!-- Part llanta_dere_del -->
     <visual>
-      <origin xyz="0 0 -0.015" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 0 -0.015" rpy="1.5708 0 0"/>
       <geometry>
         <mesh filename="package://my_robot_description/assets/llanta_dere_del.stl"/>
       </geometry>
@@ -55,7 +56,7 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="0 0 -0.015" rpy="1.5708 -0 0"/>
+      <origin xyz="-0 0 -0.015" rpy="1.5708 0 0"/>
       <geometry>
         <mesh filename="package://my_robot_description/assets/llanta_dere_del.stl"/>
       </geometry>
@@ -63,7 +64,7 @@
   </link>
   <!-- Joint from base_t to llanta_dere_del -->
   <joint name="llanta_dere_del_joint" type="continuous">
-    <origin xyz="0.0441 -0.095 0.0162" rpy="-1.5708 -0 0"/>
+    <origin xyz="0.0441 -0.095 0.0162" rpy="-1.5708 0.765592 0"/>
     <parent link="base_link"/>
     <child link="llanta_dere_del_link"/>
     <axis xyz="0 0 1"/>
@@ -165,8 +166,6 @@
     <axis xyz="0 0 -1"/>
     <limit effort="100" velocity="100"/>
   </joint>
-
  
-
-
+  
 </robot>  

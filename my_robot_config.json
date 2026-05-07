@@ -2,8 +2,8 @@
   "documentId": "3023829f8e4e5c564f6b4985",
   "outputFormat": "urdf",
   "packageName": "my_robot_description",
-  "robotName": "tretabot",
-  "assemblyName": "robo_5_s",
+  "robotName": "tetrabot",
+  "assemblyName": "tetrabot",
   "export_stl_with_meters": true,
   "set_zero_mass_to_fixed": false,
   "default_joint_type": "continuous",
@@ -30,6 +30,26 @@
 
       "dof_llanta_iz_tra": {
           "type": "revolute"
+      },
+
+      "dof_antena": {
+          "type": "fixed"
+      },
+
+      "dof_ultrasonico_dere": {
+          "type": "fixed"
+      },
+
+      "dof_ultrasonico_iz": {
+          "type": "fixed"
+      },
+
+      "dof_ultrasonico_tra": {
+          "type": "fixed"
+      },
+      
+       "dof_faro": {
+          "type": "fixed"
       },
 
       "dof_lidar": {

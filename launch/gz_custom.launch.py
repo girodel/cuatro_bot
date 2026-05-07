@@ -16,10 +16,10 @@ def generate_launch_description():
     #CHANGE THESE TO BE RELEVANT TO THE SPECIFIC PACKAGE
     robot_description_path = get_package_share_directory('my_robot_description')  # -----> Change me!
     robot_package = FindPackageShare('my_robot_description') # -----> Change me!
-    robot_name = 'tretabot' # Verify this matches your robot's actual spawned name/tf_prefix
+    robot_name = 'tetrabot' # Verify this matches your robot's actual spawned name/tf_prefix
     robot_urdf_file_name = 'my_robot.urdf.xacro'
     rviz_config_file_name = 'my_robo_only.rviz'
-    custom_world_file_name = 'my_prueba_world.sdf'
+    custom_world_file_name = 'my_prueba_world_2.sdf'
     #custom_world_file_name = 'qr_code_maze_big_world_alignment_testing.sdf'
 
     parent_of_share_path = os.path.dirname(robot_description_path)
@@ -176,7 +176,8 @@ def generate_launch_description():
     output='screen',
     arguments=[
         '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
-        '/scan/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked', 
+        # '/scan/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked', 
+        '/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
         '/camera/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image',
         '/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
         

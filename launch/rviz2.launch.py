@@ -17,7 +17,7 @@ def generate_launch_description():
     #CHANGE THESE TO BE RELEVANT TO THE SPECIFIC PACKAGE
     robot_description_path = get_package_share_directory('my_robot_description')  # -----> Change me!
     robot_package = FindPackageShare('my_robot_description') # -----> Change me!
-    robot_name = 'tretabot' # Verify this matches your robot's actual spawned name/tf_prefix
+    robot_name = 'tetrabot' # Verify this matches your robot's actual spawned name/tf_prefix
     robot_urdf_file_name = 'my_robot.urdf.xacro'
     rviz_config_file_name = 'my_robo_only.rviz'
 

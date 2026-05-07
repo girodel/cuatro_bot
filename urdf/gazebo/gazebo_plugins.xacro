@@ -16,12 +16,12 @@
         
             <!-- Nombres de tópicos corregidos para Ignition -->
             <topic>cmd_vel</topic>
-            <odom_topic>model/tretabot/odometry</odom_topic>
-            <tf_topic>model/tretabot/tf</tf_topic>
+            <odom_topic>model/tetrabot/odometry</odom_topic>
+            <tf_topic>model/tetrabot/tf</tf_topic>
             
             <!-- Coincidiendo con tu Launch prefix -->
-            <frame_id>tretabot/odom</frame_id>
-            <child_frame_id>tretabot/base_footprint</child_frame_id>
+            <frame_id>tetrabot/odom</frame_id>
+            <child_frame_id>tetrabot/base_footprint</child_frame_id>
             
             <odom_publisher_frequency>30</odom_publisher_frequency>
             <max_linear_acceleration>0.5</max_linear_acceleration>
@@ -48,38 +48,44 @@
 
 
 
+
 <!-- =========== Lidar Sensor ============ -->
     <gazebo reference="lidar_link">
-        <sensor name='gpu_lidar' type='gpu_lidar'>
+        <sensor name='gpu_lidar' type='gpu_lidar'>"
             <pose relative_to='lidar_link'>0 0 0 0 0 0</pose>
             <topic>scan</topic>
-            <update_rate>10</update_rate> <always_on>1</always_on>
+            <update_rate>2</update_rate>
+            <always_on>1</always_on>
             <visualize>1</visualize>
             <lidar>
                 <scan>
                     <horizontal>
-                        <samples>360</samples>
+                        <samples>640</samples>
                         <resolution>1</resolution>
-                        <min_angle>-3.14159265</min_angle> <max_angle>3.14159265</max_angle>
+                        <min_angle>-1.396263</min_angle>
+                        <max_angle>1.396263</max_angle>
                     </horizontal>
-                    <vertical>
-                        <samples>16</samples> <resolution>1</resolution>
-                        <min_angle>-0.261799</min_angle> <max_angle>0.261799</max_angle>  </vertical>
+                    <!--<vertical> Not needed if not scanning vertically
+                        <samples>1</samples>
+                        <resolution>0.01</resolution>
+                        <min_angle>0</min_angle>
+                        <max_angle>0</max_angle>
+                    </vertical>-->
                 </scan>
                 <range>
-                    <min>0.10</min> <max>10.0</max>
+                    <min>0.08</min>
+                    <max>10.0</max>
                     <resolution>0.01</resolution>
                 </range>
                 <noise>
                     <type>gaussian</type>
                     <mean>0.0</mean>
-                    <stddev>0.01</stddev>
+                    <stddev>0.001</stddev>
                 </noise>
             </lidar>
         </sensor>
     </gazebo>
 <!--=========================================-->
-
 
 <!-- =========== Camera Sensor ============ -->
     <gazebo reference="camara_link">
@@ -110,6 +116,36 @@
         </sensor>
     </gazebo>
 <!--=========================================-->
+
+<gazebo reference="faro_link">
+  <visual>
+    <material>
+      <ambient>1 1 0 1</ambient>
+      <diffuse>1 1 0 1</diffuse>
+      <specular>1 1 1 1</specular>
+      <emissive>1 1 0 1</emissive> <!-- Esto hace que el faro brille en la simulación -->
+    </material>
+  </visual>
+  <!-- Luz puntual que emite el faro -->
+  <light name="faro_luz" type="spot">
+    <pose>0 0 0 0 0 0</pose>
+    <diffuse>1 1 1 1</diffuse>
+    <specular>.1 .1 .1 1</specular>
+    <attenuation>
+      <range>10</range>
+      <constant>0.5</constant>
+      <linear>0.01</linear>
+      <quadratic>0.001</quadratic>
+    </attenuation>
+    <direction>1 0 0</direction> <!-- Hacia adelante -->
+    <spot>
+      <inner_angle>0.1</inner_angle>
+      <outer_angle>0.5</outer_angle>
+      <falloff>1.2</falloff>
+    </spot>
+    <cast_shadows>true</cast_shadows>
+  </light>
+</gazebo>
 
 
 </robot> 
