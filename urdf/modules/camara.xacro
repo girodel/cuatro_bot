@@ -3,16 +3,16 @@
 <!-- Onshape document_id: 3023829f8e4e5c564f6b4985 -->
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-<!-- Link camara_t_s -->
+ <!-- Link camara_t_s -->
   <link name="camara_link">
     <inertial>
-      <origin xyz="-0 0 -0.00516528" rpy="0 0 0"/>
+      <origin xyz="0 0 -0.00516528" rpy="0 0 0"/>
       <mass value="0.0399941"/>
       <inertia ixx="6.59521e-06" ixy="0" ixz="0" iyy="6.59521e-06" iyz="0" izz="1.04207e-05"/>
     </inertial>
     <!-- Part camara_t_s -->
     <visual>
-      <origin xyz="-0 0 0.005" rpy="3.14159 -0 1.5708"/>
+      <origin xyz="0 0 0.005" rpy="3.14159 -0 1.5708"/>
       <geometry>
         <mesh filename="package://my_robot_description/assets/camara_t_s.stl"/>
       </geometry>
@@ -21,21 +21,20 @@
       </material>
     </visual>
     <collision>
-      <origin xyz="-0 0 0.005" rpy="3.14159 -0 1.5708"/>
+      <origin xyz="0 0 0.005" rpy="3.14159 -0 1.5708"/>
       <geometry>
         <mesh filename="package://my_robot_description/assets/camara_t_s.stl"/>
       </geometry>
     </collision>
   </link>
-  <!-- Joint from base_t to camara_t_s -->
+  <!-- Joint from base_link to camara_t_s -->
   <joint name="camara_joint" type="fixed">
-    <origin xyz="0.115 0 0.135" rpy=" 0 0 0 "/>
+    <origin xyz="0.115 0 0.13" rpy="0 0 0"/>
     <parent link="base_link"/>
     <child link="camara_link"/>
     <axis xyz="0 0 1"/>
     <limit effort="100" velocity="100"/>
   </joint>
-
   <!--THIS IS A FIX TO CHANGE THE ORIENTATION SO IT WORKS WITH OPENCV (ALWAYS INCLUDE)
   generate an optical frame 
   http://www.ros.org/reps/rep-0103.html#suffix-frames

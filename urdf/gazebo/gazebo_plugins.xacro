@@ -24,8 +24,8 @@
             <child_frame_id>tetrabot/base_footprint</child_frame_id>
             
             <odom_publisher_frequency>30</odom_publisher_frequency>
-            <max_linear_acceleration>0.5</max_linear_acceleration>
-            <max_angular_acceleration>1.0</max_angular_acceleration>
+            <max_linear_acceleration>0.2</max_linear_acceleration>
+            <max_angular_acceleration>0.5</max_angular_acceleration>
         </plugin>
     </gazebo>
 
@@ -60,10 +60,10 @@
             <lidar>
                 <scan>
                     <horizontal>
-                        <samples>640</samples>
+                        <samples>760</samples>
                         <resolution>1</resolution>
-                        <min_angle>-1.396263</min_angle>
-                        <max_angle>1.396263</max_angle>
+                        <min_angle>-3.14159</min_angle>
+                        <max_angle>3.14159</max_angle>
                     </horizontal>
                     <!--<vertical> Not needed if not scanning vertically
                         <samples>1</samples>
@@ -117,7 +117,7 @@
     </gazebo>
 <!--=========================================-->
 
-<gazebo reference="faro_link">
+<gazebo reference="faro_delantero_link">
   <visual>
     <material>
       <ambient>1 1 0 1</ambient>
@@ -147,5 +147,110 @@
   </light>
 </gazebo>
 
+
+
+<!-- CONFIGURACIÓN GAZEBO PARA SENSORES ULTRASÓNICOS -->
+
+  <!-- Ultrasonico Derecho -->
+  <gazebo reference="ulrasonico_der_link">
+    <sensor type="ray" name="ultrasonico_der">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>5</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.13</min_angle>
+            <max_angle>0.13</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>5</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.01</min_angle>
+            <max_angle>0.01</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.02</min>
+          <max>4.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </ray>
+      <plugin name="gazebo_ros_ultrasonico_der" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=ultrasonico/der</remapping>
+        </ros>
+        <output_type>sensor_msgs/Range</output_type>
+        <radiation_type>ultrasound</radiation_type>
+        <frame_name>ulrasonico_der_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Ultrasonico Izquierdo -->
+  <gazebo reference="ulrasonico_iz_link">
+    <sensor type="ray" name="ultrasonico_iz">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>5</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.13</min_angle>
+            <max_angle>0.13</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.02</min>
+          <max>4.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </ray>
+      <plugin name="gazebo_ros_ultrasonico_iz" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=ultrasonico/iz</remapping>
+        </ros>
+        <output_type>sensor_msgs/Range</output_type>
+        <radiation_type>ultrasound</radiation_type>
+        <frame_name>ulrasonico_iz_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- Ultrasonico Trasero -->
+  <gazebo reference="ulrasonico_tra_link">
+    <sensor type="ray" name="ultrasonico_tra">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>5</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.13</min_angle>
+            <max_angle>0.13</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.02</min>
+          <max>4.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </ray>
+      <plugin name="gazebo_ros_ultrasonico_tra" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=ultrasonico/tra</remapping>
+        </ros>
+        <output_type>sensor_msgs/Range</output_type>
+        <radiation_type>ultrasound</radiation_type>
+        <frame_name>ulrasonico_tra_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
 
 </robot> 

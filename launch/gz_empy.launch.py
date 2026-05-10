@@ -146,17 +146,29 @@ def generate_launch_description():
 
 # ================= GAZEBO BRIDGES & SENSOR SETUP =================== #
 
-    bridge_config_file = os.path.join(robot_description_path, 'yaml', 'gazebo_bridge.yaml')
-
     ros_gz_bridge = Node(
-        package='ros_gz_bridge',
-        executable='parameter_bridge',
-        name='ros_gz_bridge',
-        parameters=[
-            {'config_file': bridge_config_file}
-        ],
-        output='screen'
+    package='ros_gz_bridge',
+    executable='parameter_bridge',
+    name='ros_gz_bridge',
+    output='screen',
+    arguments=[
+        '/clock@rosgraph_msgs/msg/Clock[ignition.msgs.Clock',
+        # '/scan/points@sensor_msgs/msg/PointCloud2[ignition.msgs.PointCloudPacked', 
+        '/scan@sensor_msgs/msg/LaserScan[ignition.msgs.LaserScan',
+        '/camera/image_raw@sensor_msgs/msg/Image[ignition.msgs.Image',
+        '/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
+        
+        # Puente de Odometría corregido (Ruta completa de Ignition)
+        f'/model/{robot_name}/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
+        
+        # Puente de TF para movimiento dinámico
+        f'/model/{robot_name}/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',
+        
+        # Control de movimiento (cmd_vel)
+        '/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist'
+    ]
     )
+   
 
 
     #THESE ARE SPECIFIC TO GETTING THE LIDAR WORKING:

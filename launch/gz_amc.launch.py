@@ -17,8 +17,8 @@ def generate_launch_description():
     robot_package = FindPackageShare('my_robot_description') 
     robot_name = 'tetrabot' 
     robot_urdf_file_name = 'my_robot.urdf.xacro'
-    rviz_config_file_name = 'my_robo_only.rviz'
-    custom_world_file_name = 'my_prueba_world_2.sdf'
+    rviz_config_file_name = 'my_robo_maps.rviz'
+    custom_world_file_name = 'my_prueba_world_h.sdf'
 
     parent_of_share_path = os.path.dirname(robot_description_path)
 
@@ -173,7 +173,12 @@ def generate_launch_description():
             '/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo',
             f'/model/{robot_name}/odometry@nav_msgs/msg/Odometry[ignition.msgs.Odometry',
             f'/model/{robot_name}/tf@tf2_msgs/msg/TFMessage[ignition.msgs.Pose_V',
-            '/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist'
+            '/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist',
+            # --- PUENTES PARA ULTRASONICOS ---
+            # El formato es: /TOPICO@ROS_MSG_TYPE[GZ_MSG_TYPE
+            '/ultrasonico/der@sensor_msgs/msg/Range[ignition.msgs.EntityRange',
+            '/ultrasonico/iz@sensor_msgs/msg/Range[ignition.msgs.EntityRange',
+            '/ultrasonico/tra@sensor_msgs/msg/Range[ignition.msgs.EntityRange'
         ],
         # 🔥 EL REMAPEO DE TF AQUÍ:
         remappings=[

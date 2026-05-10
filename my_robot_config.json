@@ -1,9 +1,9 @@
 {
-  "documentId": "3023829f8e4e5c564f6b4985",
+  "documentId": "ea8bc0bd07d35a7ef58eef6b",
   "outputFormat": "urdf",
   "packageName": "my_robot_description",
   "robotName": "tetrabot",
-  "assemblyName": "tetrabot",
+  "assemblyName": "tetrabot_G",
   "export_stl_with_meters": true,
   "set_zero_mass_to_fixed": false,
   "default_joint_type": "continuous",
@@ -48,7 +48,19 @@
           "type": "fixed"
       },
       
-       "dof_faro": {
+       "dof_ultrasonico_der_dia": {
+          "type": "fixed"
+      },
+
+       "dof_ultrasonico_iz_dia": {
+          "type": "fixed"
+      },
+      
+       "dof_faro_delantero": {
+          "type": "fixed"
+      },
+
+       "dof_faro_trasero": {
           "type": "fixed"
       },
 

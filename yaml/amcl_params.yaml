@@ -10,4 +10,4 @@ amcl:
 map_server:
   ros__parameters:
     use_sim_time: true
-    yaml_filename: "/home/joker/robo2_ws/src/my_robot_description/maps/mi_primer_mapa.yaml"
+    yaml_filename: "/home/joker/robo2_ws/src/my_robot_description/maps/mapa_hos.yaml"
