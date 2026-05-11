@@ -19,7 +19,7 @@ def generate_launch_description():
     robot_name = 'tetrabot' # Verify this matches your robot's actual spawned name/tf_prefix
     robot_urdf_file_name = 'my_robot.urdf.xacro'
     rviz_config_file_name = 'my_robo_only.rviz'
-    custom_world_file_name = 'my_prueba_world_2.sdf'
+    custom_world_file_name = 'centro_atencion.sdf'
     #custom_world_file_name = 'qr_code_maze_big_world_alignment_testing.sdf'
 
     parent_of_share_path = os.path.dirname(robot_description_path)
