@@ -23,6 +23,7 @@ install(
     scripts/bug0_node.py 
     scripts/bug1_node.py # <--- Agrégalo aquí
     scripts/bug2_node.py 
+    scripts/nav_rooms.py
   DESTINATION lib/${PROJECT_NAME}
 )
 

@@ -1,0 +1,301 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version='1.9'>
+  <world name='hospital_carrion_world'>
+    <!-- PLUGINS BASE DE FÍSICAS -->
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='ignition-gazebo-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='ignition-gazebo-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='ignition-gazebo-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='ignition-gazebo-contact-system'/>
+    <gravity>0 0 -9.8</gravity>
+    
+    <scene>
+      <ambient>0.5 0.5 0.5 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- LUZ -->
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <!-- SUELO -->
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'><geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry></collision>
+        <visual name='visual'>
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- LETRERO: HOSPITAL CARRIÓN -->
+    <model name='hospital_sign'>
+      <static>true</static>
+      <pose>0 0 3.0 0 0 0</pose>
+      <link name='sign_link'>
+        <visual name='board_vis'>
+          <geometry><box><size>6.5 0.1 1.0</size></box></geometry>
+          <material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material>
+        </visual>
+        <collision name='board_col'><geometry><box><size>6.5 0.1 1.0</size></box></geometry></collision>
+        <visual name='text_vis'>
+          <pose>-2.8 -0.06 -0.2 1.5708 0 0</pose>
+          <geometry><text><string>HOSPITAL CARRION</string></text></geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ESTRUCTURA DEL EDIFICIO (Paredes) -->
+    <model name='building_structure'>
+      <static>true</static>
+      <link name='walls'>
+        <visual name='cw_l'><pose>-9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_l'><pose>-9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+        <visual name='cw_r'><pose>9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_r'><pose>9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+        <visual name='cw_t1'><pose>-7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t2'><pose>-3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t3'><pose>3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t4'><pose>7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_t1'><pose>-7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t2'><pose>-3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t3'><pose>3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t4'><pose>7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry></collision>
+        <visual name='cw_b1'><pose>-7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_b2'><pose>0 -1 1 0 0 0</pose><geometry><box><size>7.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_b3'><pose>7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_b1'><pose>-7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_b2'><pose>0 -1 1 0 0 0</pose><geometry><box><size>7.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_b3'><pose>7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry></collision>
+
+        <!-- CUARTOS SUPERIORES (6x6) -->
+        <!-- R1: Verde -->
+        <visual name='r1_w1'><pose>-9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <visual name='r1_w2'><pose>-3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <visual name='r1_w3'><pose>-6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <collision name='cr1_1'><pose>-9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr1_2'><pose>-3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr1_3'><pose>-6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R2: Morado -->
+        <visual name='r2_w2'><pose>3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.6 0.2 0.8 1</ambient><diffuse>0.6 0.2 0.8 1</diffuse></material></visual>
+        <visual name='r2_w3'><pose>0 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.6 0.2 0.8 1</ambient><diffuse>0.6 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cr2_2'><pose>3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr2_3'><pose>0 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R3: Rojo -->
+        <visual name='r3_w2'><pose>9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.8 0.2 0.2 1</ambient><diffuse>0.8 0.2 0.2 1</diffuse></material></visual>
+        <visual name='r3_w3'><pose>6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.8 0.2 0.2 1</ambient><diffuse>0.8 0.2 0.2 1</diffuse></material></visual>
+        <collision name='cr3_2'><pose>9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr3_3'><pose>6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- CUARTOS INFERIORES -->
+        <!-- R4: Amarillo (Almacén 9x8) -->
+        <visual name='r4_w1'><pose>-9 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <visual name='r4_w2'><pose>0 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <visual name='r4_w3'><pose>-4.5 -9 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <collision name='cr4_1'><pose>-9 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry></collision>
+        <collision name='cr4_2'><pose>0 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry></collision>
+        <collision name='cr4_3'><pose>-4.5 -9 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R5: Cian (Sala de Espera 10x9) -->
+        <visual name='r5_w2'><pose>9 -6 1 0 0 1.5708</pose><geometry><box><size>10 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <visual name='r5_w3'><pose>4.5 -11 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <visual name='r5_w4'><pose>0 -10 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <collision name='cr5_2'><pose>9 -6 1 0 0 1.5708</pose><geometry><box><size>10 0.2 2</size></box></geometry></collision>
+        <collision name='cr5_3'><pose>4.5 -11 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry></collision>
+        <collision name='cr5_4'><pose>0 -10 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- MESAS DE OPERACIÓN -->
+    <model name='operating_tables'>
+      <static>true</static>
+      <link name='ot_link'>
+        <visual name='ot1'><pose>-6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot1'><pose>-6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+        <visual name='ot2'><pose>0 5.5 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot2'><pose>0 5.5 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+        <visual name='ot3'><pose>6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot3'><pose>6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- SILLAS MARRONES EN CADA HABITACIÓN -->
+    <model name='brown_chairs'>
+      <static>true</static>
+      <link name='b_chairs_link'>
+        <!-- Silla R1 -->
+        <visual name='bc1_s'><pose>-8 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <visual name='bc1_b'><pose>-8 6.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <collision name='cbc1'><pose>-8 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <!-- Silla R2 -->
+        <visual name='bc2_s'><pose>-2 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <visual name='bc2_b'><pose>-2 6.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <collision name='cbc2'><pose>-2 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <!-- Silla R3 -->
+        <visual name='bc3_s'><pose>4 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <visual name='bc3_b'><pose>4 6.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <collision name='cbc3'><pose>4 6 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <!-- Silla R4 (Almacén) -->
+        <visual name='bc4_s'><pose>-8 -8 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <visual name='bc4_b'><pose>-8 -7.8 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <collision name='cbc4'><pose>-8 -8 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <!-- Silla R5 (Sala de Espera) extra -->
+        <visual name='bc5_s'><pose>1 -2 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <visual name='bc5_b'><pose>1 -1.8 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.4 0.2 0 1</ambient><diffuse>0.4 0.2 0 1</diffuse></material></visual>
+        <collision name='cbc5'><pose>1 -2 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- ALMACÉN EN R4 (Estantes de 40cm y Cajas) -->
+    <model name='warehouse_items'>
+      <static>true</static>
+      <pose>-4.5 -5 0 0 0 0</pose>
+      <link name='wh_link'>
+        <!-- ESTANTE 1 -->
+        <visual name='s1_top'><pose>0 2 0.4 0 0 0</pose><geometry><box><size>3 1 0.05</size></box></geometry><material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.6 0.6 0.6 1</diffuse></material></visual>
+        <visual name='s1_l1'><pose>1.4 2.4 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s1_l2'><pose>-1.4 2.4 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s1_l3'><pose>1.4 1.6 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s1_l4'><pose>-1.4 1.6 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <collision name='cs1'><pose>0 2 0.4 0 0 0</pose><geometry><box><size>3 1 0.05</size></box></geometry></collision>
+        
+        <!-- Cajas en Estante 1 -->
+        <visual name='b1'><pose>1 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <visual name='b2'><pose>0 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <visual name='b3'><pose>-1 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <collision name='cb1'><pose>1 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <collision name='cb2'><pose>0 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <collision name='cb3'><pose>-1 2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+
+        <!-- ESTANTE 2 -->
+        <visual name='s2_top'><pose>0 -2 0.4 0 0 0</pose><geometry><box><size>3 1 0.05</size></box></geometry><material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.6 0.6 0.6 1</diffuse></material></visual>
+        <visual name='s2_l1'><pose>1.4 -1.6 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s2_l2'><pose>-1.4 -1.6 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s2_l3'><pose>1.4 -2.4 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <visual name='s2_l4'><pose>-1.4 -2.4 0.2 0 0 0</pose><geometry><box><size>0.1 0.1 0.4</size></box></geometry><material><ambient>0.3 0.3 0.3 1</ambient><diffuse>0.3 0.3 0.3 1</diffuse></material></visual>
+        <collision name='cs2'><pose>0 -2 0.4 0 0 0</pose><geometry><box><size>3 1 0.05</size></box></geometry></collision>
+
+        <!-- Cajas en Estante 2 y Suelo -->
+        <visual name='b4'><pose>1 -2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <visual name='b5'><pose>-1 -2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <visual name='b6'><pose>-2.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.7 0.5 0.3 1</ambient><diffuse>0.7 0.5 0.3 1</diffuse></material></visual>
+        <collision name='cb4'><pose>1 -2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <collision name='cb5'><pose>-1 -2 0.675 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        <collision name='cb6'><pose>-2.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- 5 FILAS DE SILLAS EN SALA DE ESPERA (R5) -->
+    <!-- Fila 1 -->
+    <model name='waiting_chairs_r1'>
+      <static>true</static><pose>4.5 -3.5 0 0 0 0</pose>
+      <link name='link'>
+        <visual name='c1s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc'><pose>0 0 0.25 0 0 0</pose><geometry><box><size>3.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- Fila 2 -->
+    <model name='waiting_chairs_r2'>
+      <static>true</static><pose>4.5 -5.0 0 0 0 0</pose>
+      <link name='link'>
+        <visual name='c1s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc'><pose>0 0 0.25 0 0 0</pose><geometry><box><size>3.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- Fila 3 -->
+    <model name='waiting_chairs_r3'>
+      <static>true</static><pose>4.5 -6.5 0 0 0 0</pose>
+      <link name='link'>
+        <visual name='c1s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc'><pose>0 0 0.25 0 0 0</pose><geometry><box><size>3.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- Fila 4 -->
+    <model name='waiting_chairs_r4'>
+      <static>true</static><pose>4.5 -8.0 0 0 0 0</pose>
+      <link name='link'>
+        <visual name='c1s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc'><pose>0 0 0.25 0 0 0</pose><geometry><box><size>3.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- Fila 5 -->
+    <model name='waiting_chairs_r5'>
+      <static>true</static><pose>4.5 -9.5 0 0 0 0</pose>
+      <link name='link'>
+        <visual name='c1s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc'><pose>0 0 0.25 0 0 0</pose><geometry><box><size>3.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- MESA CON AGUJERO (R2) -->
+    <model name='custom_hole_desk'>
+      <static>true</static>
+      <pose>0 2.5 0 0 0 0</pose>
+      <link name='desk_link'>
+        <visual name='top_front'><pose>0 0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_back'><pose>0 -0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_left'><pose>-0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_right'><pose>0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <collision name='ctf'><pose>0 0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry></collision>
+        <collision name='ctb'><pose>0 -0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry></collision>
+        <collision name='ctl'><pose>-0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry></collision>
+        <collision name='ctr'><pose>0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry></collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>

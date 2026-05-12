@@ -1,0 +1,212 @@
+<?xml version='1.0' encoding='utf-8'?>
+<sdf version='1.9'>
+  <world name='hospital_carrion_world'>
+    <!-- PLUGINS BASE DE FÍSICAS -->
+    <physics name='1ms' type='ignored'>
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1</real_time_factor>
+      <real_time_update_rate>1000</real_time_update_rate>
+    </physics>
+    <plugin name='gz::sim::systems::Physics' filename='ignition-gazebo-physics-system'/>
+    <plugin name='gz::sim::systems::UserCommands' filename='ignition-gazebo-user-commands-system'/>
+    <plugin name='gz::sim::systems::SceneBroadcaster' filename='ignition-gazebo-scene-broadcaster-system'/>
+    <plugin name='gz::sim::systems::Contact' filename='ignition-gazebo-contact-system'/>
+    <gravity>0 0 -9.8</gravity>
+    
+    <scene>
+      <ambient>0.5 0.5 0.5 1</ambient>
+      <background>0.7 0.7 0.7 1</background>
+      <shadows>true</shadows>
+    </scene>
+
+    <!-- LUZ -->
+    <light name='sun' type='directional'>
+      <pose>0 0 10 0 0 0</pose>
+      <cast_shadows>true</cast_shadows>
+      <direction>-0.5 0.1 -0.9</direction>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+    </light>
+
+    <!-- SUELO -->
+    <model name='ground_plane'>
+      <static>true</static>
+      <link name='link'>
+        <collision name='collision'><geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry></collision>
+        <visual name='visual'>
+          <geometry><plane><normal>0 0 1</normal><size>100 100</size></plane></geometry>
+          <material><ambient>0.8 0.8 0.8 1</ambient><diffuse>0.8 0.8 0.8 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================================== -->
+    <!-- LETRERO: HOSPITAL CARRIÓN (Letras Negras)  -->
+    <!-- ========================================== -->
+    <model name='hospital_sign'>
+      <static>true</static>
+      <pose>0 0 3.0 0 0 0</pose> <!-- Altura de 3 metros -->
+      <link name='sign_link'>
+        <visual name='board_vis'>
+          <geometry><box><size>6.5 0.1 1.0</size></box></geometry>
+          <material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material> <!-- Tablero blanco -->
+        </visual>
+        <collision name='board_col'><geometry><box><size>6.5 0.1 1.0</size></box></geometry></collision>
+        
+        <!-- Letras -->
+        <visual name='text_vis'>
+          <pose>-2.8 -0.06 -0.2 1.5708 0 0</pose>
+          <geometry>
+            <text>
+              <string>HOSPITAL CARRION</string>
+            </text>
+          </geometry>
+          <material><ambient>0 0 0 1</ambient><diffuse>0 0 0 1</diffuse></material> <!-- LETRAS NEGRAS -->
+        </visual>
+      </link>
+    </model>
+
+    <!-- ========================================== -->
+    <!-- ESTRUCTURA DEL EDIFICIO (Paredes)          -->
+    <!-- ========================================== -->
+    <model name='building_structure'>
+      <static>true</static>
+      <link name='walls'>
+        <!-- Pasadizo Principal: de X=-9 a X=9 (18 metros de largo) -->
+        <visual name='cw_l'><pose>-9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_l'><pose>-9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+        
+        <visual name='cw_r'><pose>9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_r'><pose>9 0 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+
+        <!-- Pared superior del pasillo (Con 3 puertas para R1, R2, R3) -->
+        <visual name='cw_t1'><pose>-7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t2'><pose>-3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t3'><pose>3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_t4'><pose>7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_t1'><pose>-7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t2'><pose>-3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t3'><pose>3.0 1 1 0 0 0</pose><geometry><box><size>4.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_t4'><pose>7.875 1 1 0 0 0</pose><geometry><box><size>2.25 0.2 2</size></box></geometry></collision>
+
+        <!-- Pared inferior del pasillo (Con 2 puertas para R4 y R5) -->
+        <visual name='cw_b1'><pose>-7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_b2'><pose>0 -1 1 0 0 0</pose><geometry><box><size>7.5 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <visual name='cw_b3'><pose>7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.9 1</ambient><diffuse>0.9 0.9 0.9 1</diffuse></material></visual>
+        <collision name='ccw_b1'><pose>-7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_b2'><pose>0 -1 1 0 0 0</pose><geometry><box><size>7.5 0.2 2</size></box></geometry></collision>
+        <collision name='ccw_b3'><pose>7.125 -1 1 0 0 0</pose><geometry><box><size>3.75 0.2 2</size></box></geometry></collision>
+
+        <!-- ========================================== -->
+        <!-- CUARTOS SUPERIORES (AHORA 6x6 METROS)      -->
+        <!-- ========================================== -->
+        <!-- R1: Verde -->
+        <visual name='r1_w1'><pose>-9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <visual name='r1_w2'><pose>-3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <visual name='r1_w3'><pose>-6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.2 0.8 0.2 1</ambient><diffuse>0.2 0.8 0.2 1</diffuse></material></visual>
+        <collision name='cr1_1'><pose>-9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr1_2'><pose>-3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr1_3'><pose>-6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R2: Morado -->
+        <visual name='r2_w2'><pose>3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.6 0.2 0.8 1</ambient><diffuse>0.6 0.2 0.8 1</diffuse></material></visual>
+        <visual name='r2_w3'><pose>0 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.6 0.2 0.8 1</ambient><diffuse>0.6 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cr2_2'><pose>3 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr2_3'><pose>0 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R3: Rojo -->
+        <visual name='r3_w2'><pose>9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry><material><ambient>0.8 0.2 0.2 1</ambient><diffuse>0.8 0.2 0.2 1</diffuse></material></visual>
+        <visual name='r3_w3'><pose>6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry><material><ambient>0.8 0.2 0.2 1</ambient><diffuse>0.8 0.2 0.2 1</diffuse></material></visual>
+        <collision name='cr3_2'><pose>9 4 1 0 0 1.5708</pose><geometry><box><size>6 0.2 2</size></box></geometry></collision>
+        <collision name='cr3_3'><pose>6 7 1 0 0 0</pose><geometry><box><size>6.2 0.2 2</size></box></geometry></collision>
+
+        <!-- ========================================== -->
+        <!-- CUARTOS INFERIORES                         -->
+        <!-- ========================================== -->
+        <!-- R4: Amarillo (9x8 Metros) -->
+        <visual name='r4_w1'><pose>-9 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <visual name='r4_w2'><pose>0 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <visual name='r4_w3'><pose>-4.5 -9 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry><material><ambient>0.9 0.9 0.1 1</ambient><diffuse>0.9 0.9 0.1 1</diffuse></material></visual>
+        <collision name='cr4_1'><pose>-9 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry></collision>
+        <collision name='cr4_2'><pose>0 -5 1 0 0 1.5708</pose><geometry><box><size>8 0.2 2</size></box></geometry></collision>
+        <collision name='cr4_3'><pose>-4.5 -9 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry></collision>
+
+        <!-- R5: NUEVO AMBIENTE CIAN - SALA DE ESPERA (10x9 Metros - EL MÁS GRANDE) -->
+        <visual name='r5_w2'><pose>9 -6 1 0 0 1.5708</pose><geometry><box><size>10 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <visual name='r5_w3'><pose>4.5 -11 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <visual name='r5_w4'><pose>0 -10 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry><material><ambient>0.1 0.8 0.9 1</ambient><diffuse>0.1 0.8 0.9 1</diffuse></material></visual>
+        <collision name='cr5_2'><pose>9 -6 1 0 0 1.5708</pose><geometry><box><size>10 0.2 2</size></box></geometry></collision>
+        <collision name='cr5_3'><pose>4.5 -11 1 0 0 0</pose><geometry><box><size>9.2 0.2 2</size></box></geometry></collision>
+        <collision name='cr5_4'><pose>0 -10 1 0 0 1.5708</pose><geometry><box><size>2 0.2 2</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- ========================================== -->
+    <!-- MESAS DE OPERACIÓN (En R1, R2, R3)         -->
+    <!-- ========================================== -->
+    <model name='operating_tables'>
+      <static>true</static>
+      <link name='ot_link'>
+        <!-- Mesa en R1 Verde -->
+        <visual name='ot1'><pose>-6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot1'><pose>-6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+        
+        <!-- Mesa en R2 Morado -->
+        <visual name='ot2'><pose>0 5.5 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot2'><pose>0 5.5 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+
+        <!-- Mesa en R3 Rojo -->
+        <visual name='ot3'><pose>6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry><material><ambient>0.8 0.9 0.9 1</ambient><diffuse>0.8 0.9 0.9 1</diffuse></material></visual>
+        <collision name='cot3'><pose>6 4 0.45 0 0 0</pose><geometry><box><size>2.2 0.8 0.9</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- ========================================== -->
+    <!-- SILLAS EN SALA DE ESPERA (R5 - Cian)       -->
+    <!-- ========================================== -->
+    <model name='waiting_chairs'>
+      <static>true</static>
+      <pose>4.5 -5 0 0 0 0</pose>
+      <link name='chairs_link'>
+        <!-- Silla 1 -->
+        <visual name='c1_s'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c1_b'><pose>-1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc1'><pose>-1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+        
+        <!-- Silla 2 -->
+        <visual name='c2_s'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c2_b'><pose>-0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc2'><pose>-0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+
+        <!-- Silla 3 -->
+        <visual name='c3_s'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c3_b'><pose>0.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc3'><pose>0.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+
+        <!-- Silla 4 -->
+        <visual name='c4_s'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <visual name='c4_b'><pose>1.5 0.2 0.75 0 0 0</pose><geometry><box><size>0.5 0.1 0.5</size></box></geometry><material><ambient>0.2 0.2 0.8 1</ambient><diffuse>0.2 0.2 0.8 1</diffuse></material></visual>
+        <collision name='cc4'><pose>1.5 0 0.25 0 0 0</pose><geometry><box><size>0.5 0.5 0.5</size></box></geometry></collision>
+      </link>
+    </model>
+
+    <!-- ========================================== -->
+    <!-- MESA CON AGUJERO (Mantenida en R2)         -->
+    <!-- ========================================== -->
+    <model name='custom_hole_desk'>
+      <static>true</static>
+      <pose>0 2.5 0 0 0 0</pose> <!-- Ajustado para no chocar con la mesa de operación -->
+      <link name='desk_link'>
+        <visual name='top_front'><pose>0 0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_back'><pose>0 -0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_left'><pose>-0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <visual name='top_right'><pose>0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry><material><ambient>0.8 0.6 0.4 1</ambient><diffuse>0.8 0.6 0.4 1</diffuse></material></visual>
+        <collision name='ctf'><pose>0 0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry></collision>
+        <collision name='ctb'><pose>0 -0.45 0.95 0 0 0</pose><geometry><box><size>2.0 0.2 0.1</size></box></geometry></collision>
+        <collision name='ctl'><pose>-0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry></collision>
+        <collision name='ctr'><pose>0.9 0 0.95 0 0 0</pose><geometry><box><size>0.2 0.7 0.1</size></box></geometry></collision>
+      </link>
+    </model>
+
+  </world>
+</sdf>

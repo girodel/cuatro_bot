@@ -18,7 +18,7 @@ def generate_launch_description():
     robot_name = 'tetrabot' 
     robot_urdf_file_name = 'my_robot.urdf.xacro'
     rviz_config_file_name = 'my_robo_maps.rviz'
-    custom_world_file_name = 'centro_atencion.sdf'
+    custom_world_file_name = 'area_emergencia.sdf'
 
     parent_of_share_path = os.path.dirname(robot_description_path)
 
